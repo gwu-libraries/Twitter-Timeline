@@ -1,6 +1,6 @@
 <?php
 
-function getTweets($twitterAccount) {
+public function getTweets($twitterAccount) {
     
     require 'tmhOAuth/tmhOAuth.php';
     require 'tmhOAuth/tmhUtilities.php';
@@ -39,6 +39,7 @@ function getTweets($twitterAccount) {
     
     if ($myjson === false){
         $theResult = "<h1>problem</h2>"; //fallback (sort of..)
+        return $theResult;
         exit();
     }
     else {
@@ -72,7 +73,7 @@ function getTweets($twitterAccount) {
         
         // full tweet output
         // (this is formatted for Libsite7, change as needed)
-        $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$screenName."' target='_blank'>Latest from ".$twitterAccount." on Twitter <img alt='Twitter' height='16' src='../sites/all/themes/Libsite7/images/icons/icon-twitter.png' title='Twitter' width='16' /></a></div></div><div class='twitter-feed'><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet0."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet1."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet2."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet3."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet4."</p></div>";
+        $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$screenName."' target='_blank'>Latest from @".$twitterAccount."</a></div></div><div class='twitter-feed'><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet0."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet1."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet2."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet3."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet4."</p></div>";
     }
     
     return $theResult;
