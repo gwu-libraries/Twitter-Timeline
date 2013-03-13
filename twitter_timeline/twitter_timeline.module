@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OAuthTest</title>
+</head>
+<body>
+<h2>OAuth Module Output Test</h2>
+<?php
+
+// TO DO:
+//
+//    format embedded links
+//    put into drupal module container
+    
+    function getTweets($twitterAccount) {
+        
+        require '../tmhOAuth/tmhOAuth.php';
+        require '../tmhOAuth/tmhUtilities.php';
+        include 'tokens.php'; // create this file to store your consumer_key, consumer_secret, user_token and user_secret as the variables below
+        
+        $tmhOAuth = new tmhOAuth(array(
+           'consumer_key' => $consumerKey,
+           'consumer_secret' => $consumerSecret,
+           'user_token' => '',
+           'user_secret' => '',
+           ));
+        
+        $pathVar = '1/statuses/user_timeline/'.$twitterAccount;
+        $code = $tmhOAuth->request('GET', $tmhOAuth->url($pathVar, 'json'));
+
+        $tempVar = $tmhOAuth->response['response'];
+        $someContent = $tempVar;
+        
+        $cacheFile = 'twitterCache-'.$twitterAccount;
+
+        $path = '/tmp/' . $cacheFile . '.cache';
+
+        
+        // checks to see if cached file is older than 120 seconds, if so updates cache
+        if ((!file_exists($path) || time() - filemtime($path) > 120) && $cache = fopen($path, 'w+')) {
+            fwrite($cache, $someContent);
+            fclose($cache);
+            }
+        else {
+            }
+        
+
+        // now pull file and display json
+        
+        $myjson = file_get_contents($path); //getting the file content
+        
+        if ($myjson === false){
+            $theResult = "<h1>problem</h2>"; //fallback (sort of..)
+            exit();
+        }
+        else {
+            
+            $decode = json_decode($myjson, true); //getting the file content as array
+ 
+            $screenName = $decode[0][user][screen_name];
+            $profileImage = $decode[0][user][profile_image_url];
+            
+            //a few things we could pull from the json
+            //echo "<img src=\"".$decode[0][user][profile_image_url]."\"</img><br>"; //getting the profile image
+            //echo "Name: ".$decode[0][user][name]."<br>"; //getting the username
+            //echo "Web: ".$decode[0][user][url]."<br>"; //getting the web site address
+            //echo "Location: ".$decode[0][user][location]."<br>"; //user location
+            //echo "Updates: ".$decode[0][user][statuses_count]."<br>"; //number of updates
+            //echo "Follower: ".$decode[0][user][followers_count]."<br>"; //number of followers
+            //echo "Following: ".$decode[0][user][friends_count]."<br>"; // following
+            //echo "Description: ".$decode[0][user][description]."<br>"; //user description
+            
+            // stage 1 of making links active
+            $tweet0 = $decode[0][text];
+            $tweet1 = $decode[1][text];
+            $tweet2 = $decode[2][text];
+            $tweet3 = $decode[3][text];
+            $tweet4 = $decode[4][text];
+            $newtweet0 = str_replace("http","<a href=''>link</a>",$tweet0);
+            $newtweet1 = str_replace("http","<a href=''>link</a>",$tweet1);
+            $newtweet2 = str_replace("http","<a href=''>link</a>",$tweet2);
+            $newtweet3 = str_replace("http","<a href=''>link</a>",$tweet3);
+            $newtweet4 = str_replace("http","<a href=''>link</a>",$tweet4);
+            
+            // full tweet output
+            // (this is formatted for Libsite7, change as needed)
+            $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$screenName."' target='_blank'>Latest from ".$twitterAccount." on Twitter <img alt='Twitter' height='16' src='../sites/all/themes/Libsite7/images/icons/icon-twitter.png' title='Twitter' width='16' /></a></div></div><div class='twitter-feed'><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet0."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet1."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet2."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet3."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet4."</p></div>";
+        }
+        
+        return $theResult;
+    }
+    
+    // the function as we'd call it on the site
+    echo getTweets("GWUArchives");
+        
+        // output whole json
+        // echo "<p>begin full json</p><pre>";
+        // print_r($decode);
+        // echo "</pre><p>end full json</p>";
+
+?>
+<h2>end</h2>
+</body>
+</html>
