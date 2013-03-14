@@ -1,6 +1,6 @@
 <?php
 
-public function getTweets($twitterAccount) {
+function getTweets($twitterAccount) {
     
     require 'tmhOAuth/tmhOAuth.php';
     require 'tmhOAuth/tmhUtilities.php';
@@ -65,11 +65,11 @@ public function getTweets($twitterAccount) {
         $tweet2 = $decode[2][text];
         $tweet3 = $decode[3][text];
         $tweet4 = $decode[4][text];
-        $newtweet0 = str_replace("http","<a href=''>link</a>",$tweet0);
-        $newtweet1 = str_replace("http","<a href=''>link</a>",$tweet1);
-        $newtweet2 = str_replace("http","<a href=''>link</a>",$tweet2);
-        $newtweet3 = str_replace("http","<a href=''>link</a>",$tweet3);
-        $newtweet4 = str_replace("http","<a href=''>link</a>",$tweet4);
+        $newtweet0 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet0);
+        $newtweet1 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet1);
+        $newtweet2 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet2);
+        $newtweet3 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet3);
+        $newtweet4 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet4);
         
         // full tweet output
         // (this is formatted for Libsite7, change as needed)
