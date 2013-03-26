@@ -1,5 +1,23 @@
 <?php
 
+function getTweetBlock($twitterAccount) {
+    
+    // set cache file name and path
+    $cacheFile = 'twitterCache-'.$twitterAccount;
+    $path = '/tmp/' . $cacheFile . '.cache';
+    
+    // checks to see if cached file is older than xx seconds, if so updates cache
+    if ((!file_exists($path) || time() - filemtime($path) > 60) && $cache = fopen($path, 'w+')) {
+        $theBlock = getTweets($twitterAccount); // get block from scratch if old
+        fwrite($cache, $theBlock); // write block to cache
+        fclose($cache);
+    }
+    else {
+        $theBlock = file_get_contents($path); // get block from cache file
+    }
+    return $theBlock;
+}
+
 function getTweets($twitterAccount) {
     
     require 'tmhOAuth/tmhOAuth.php';
@@ -16,40 +34,22 @@ function getTweets($twitterAccount) {
     $pathVar = '1/statuses/user_timeline/'.$twitterAccount;
     $code = $tmhOAuth->request('GET', $tmhOAuth->url($pathVar, 'json'));
 
-    $tempVar = $tmhOAuth->response['response'];
-    $someContent = $tempVar;
-    
-    $cacheFile = 'twitterCache-'.$twitterAccount;
-
-    $path = '/tmp/' . $cacheFile . '.cache';
-
-    
-    // checks to see if cached file is older than 120 seconds, if so updates cache
-    if ((!file_exists($path) || time() - filemtime($path) > 120) && $cache = fopen($path, 'w+')) {
-        fwrite($cache, $someContent);
-        fclose($cache);
-        }
-    else {
-        }
-    
-
-    // now pull file and display json
-    
-    $myjson = file_get_contents($path); //getting the file content
-    
-    if ($myjson === false){
-        $theResult = "<h1>problem</h2>"; //fallback (sort of..)
+    $someContent = $tmhOAuth->response['response'];
+        
+    if ($someContent === false){
+        $theResult = "<h1>problem: $someContent === false</h2>"; //fallback (sort of..)
         return $theResult;
         exit();
     }
     else {
         
-        $decode = json_decode($myjson, true); //getting the file content as array
+        $decode = json_decode($someContent, true); //getting the file content as array
 
-        $screenName = $decode[0][user][screen_name];
+        $screenName = $decode[0][user][screen_name]; // bug: need to cycle through all in case of retweets
         $profileImage = $decode[0][user][profile_image_url];
         
         //a few things we could pull from the json
+        
         //echo "<img src=\"".$decode[0][user][profile_image_url]."\"</img><br>"; //getting the profile image
         //echo "Name: ".$decode[0][user][name]."<br>"; //getting the username
         //echo "Web: ".$decode[0][user][url]."<br>"; //getting the web site address
@@ -59,7 +59,7 @@ function getTweets($twitterAccount) {
         //echo "Following: ".$decode[0][user][friends_count]."<br>"; // following
         //echo "Description: ".$decode[0][user][description]."<br>"; //user description
         
-        // stage 1 of making links active
+        // setting vars and making links active
         $tweet0 = $decode[0][text];
         $tweet1 = $decode[1][text];
         $tweet2 = $decode[2][text];
@@ -71,7 +71,7 @@ function getTweets($twitterAccount) {
         $newtweet3 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet3);
         $newtweet4 = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $tweet4);
         
-        // full tweet output
+        // full block output
         // (this is formatted for Libsite7, change as needed)
         $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$screenName."' target='_blank'>Latest from @".$twitterAccount."</a></div></div><div class='twitter-feed'><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet0."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet1."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet2."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet3."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName."'>@".$screenName."</a>: ".$newtweet4."</p></div>";
     }
