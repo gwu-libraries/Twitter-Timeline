@@ -34,19 +34,19 @@ function getTweets($twitterAccount) {
     $pathVar = '1/statuses/user_timeline/'.$twitterAccount;
     $code = $tmhOAuth->request('GET', $tmhOAuth->url($pathVar, 'json'));
 
-    $someContent = $tmhOAuth->response['response'];
+    $theJSON = $tmhOAuth->response['response'];
         
-    if ($someContent === false){
-        $theResult = "<h1>problem: $someContent === false</h2>"; //fallback (sort of..)
+    if ($theJSON === false){
+        $theResult = "<h1>problem: $theJSON === false</h2>"; //fallback (sort of..)
         return $theResult;
         exit();
     }
     else {
         
-        $decode = json_decode($someContent, true); //getting the file content as array
+        $decode = json_decode($theJSON, true); //getting the file content as array
         
         // loop through array and assign values to $screenName
-        for ($i = 0; $i < 6; ++$i) {
+        for ($i = 0; $i < 8; ++$i) {
             ${screenName . $i} =  $decode[$i][user][screen_name];
         }
         
@@ -64,12 +64,18 @@ function getTweets($twitterAccount) {
         //$decode[0][user][description] (user description)
         
         // loop through array to set $tweet var and make links active
-        for ($i = 0; $i < 6; ++$i) {
+        for ($i = 0; $i < 8; ++$i) {
             ${tweet . $i} = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $decode[$i][text]);
         }
         
         // full block output (formatted for Libsite7 Drupal theme, change as needed)
-        $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div><div class='twitter-feed'><p class='twitter-text'><a href='http://twitter.com/".$screenName0."'>@".$screenName0."</a>: ".$tweet0."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName0."'>@".$screenName0."</a>: ".$tweet1."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName2."'>@".$screenName2."</a>: ".$tweet2."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName3."'>@".$screenName3."</a>: ".$tweet3."</p><p class='twitter-text'><a href='http://twitter.com/".$screenName4."'>@".$screenName4."</a>: ".$tweet4."</p></div>";
+        for ($i = 0; $i < 8; ++$i) {
+            $eachTweet = "<p class='twitter-text'><a href='http://twitter.com/".(${screenName . $i})."'>@".(${screenName . $i})."</a>: ".(${tweet . $i})."</p>";
+            $formattedTweets .= $eachTweet;
+        }
+    
+        $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div><div class='twitter-feed'>".$formattedTweets."</div>";
+                    
     }
     
     return $theResult;

@@ -1,5 +1,5 @@
 name = Twitter Timeline
 description = Displays Twitter timeline for any account (called as a function). Caches json in /tmp/. Uses Matt Harris' tmhOAuth library.
-version = "7.x-1.1.1"
+version = "7.x-1.1.2"
 core = "7.x"
 package = GW Libraries
