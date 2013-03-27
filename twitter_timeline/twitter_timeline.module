@@ -18,7 +18,7 @@ function getTweetBlock($twitterAccount) {
         $theBlock = file_get_contents($path); // get block from cache file
     }
     
-    if ($theBlock == '') // fallback
+    if ($theBlock == '' || $theBlock == '<h4>(Twitter is not available)</h4>') // fallback
     {
         $theBlock = "<h4>(Twitter is not available)</h4>";
         return $theBlock;
