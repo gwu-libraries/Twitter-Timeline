@@ -7,14 +7,25 @@ function getTweetBlock($twitterAccount) {
     $path = '/tmp/' . $cacheFile . '.cache';
     
     // checks to see if cached file is older than xx seconds, if so updates cache
-    if ((!file_exists($path) || time() - filemtime($path) > 60) && $cache = fopen($path, 'w+')) {
+    if ((!file_exists($path) || time() - filemtime($path) > 120) && $cache = fopen($path, 'w+'))
+    {
         $theBlock = getTweets($twitterAccount); // get block from scratch if old
         fwrite($cache, $theBlock); // write block to cache
         fclose($cache);
     }
-    else {
+    else
+    {
         $theBlock = file_get_contents($path); // get block from cache file
     }
+    
+    if ($theBlock == '') // fallback
+    {
+        $theBlock = "<h4>(Twitter is not available)</h4>";
+        return $theBlock;
+        break;
+    }
+    
+    
     return $theBlock;
 }
 
@@ -36,13 +47,15 @@ function getTweets($twitterAccount) {
 
     $theJSON = $tmhOAuth->response['response'];
     
-    // fallback
-    if ($theJSON === false || $theJSON == ''){
+    if (is_object(json_decode($theJSON)) || $theJSON == '') // fallback
+        {
         $theResult = "<h4>(Twitter is not available)</h4>";
         return $theResult;
-        exit();
-    }
-    else {
+        break;
+        }
+    
+    else
+        {
         
         $decode = json_decode($theJSON, true); //getting the file content as array
         
