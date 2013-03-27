@@ -35,9 +35,10 @@ function getTweets($twitterAccount) {
     $code = $tmhOAuth->request('GET', $tmhOAuth->url($pathVar, 'json'));
 
     $theJSON = $tmhOAuth->response['response'];
-        
-    if ($theJSON === false){
-        $theResult = "<h1>problem: $theJSON === false</h2>"; //fallback (sort of..)
+    
+    // fallback
+    if ($theJSON === false || $theJSON == ''){
+        $theResult = "<h4>(Twitter is not available)</h4>";
         return $theResult;
         exit();
     }
@@ -51,6 +52,8 @@ function getTweets($twitterAccount) {
         }
         
         $profileImage = $decode[0][user][profile_image_url];
+
+        $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
         
         //a few things we could pull from the json
         
@@ -74,7 +77,7 @@ function getTweets($twitterAccount) {
             $formattedTweets .= $eachTweet;
         }
     
-        $theResult = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div><div class='twitter-feed'>".$formattedTweets."</div>";
+        $theResult = $blockHeader."<div class='twitter-feed'>".$formattedTweets."</div>";
                     
     }
     
