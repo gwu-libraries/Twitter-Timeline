@@ -6,7 +6,7 @@ From .info description: Displays Twitter timeline for any account (called as a f
 Example Use:
 
 <?php
-echo getTweets(GelmanLibrary);
+echo getTweetBlock(GelmanLibrary);
 ?>
 
 Where GelmanLibrary is Twitter handle. Output is formatted for the GW Libraries site, to change it create your own classes for
