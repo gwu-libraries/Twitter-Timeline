@@ -81,10 +81,11 @@ function getTweets($twitterAccount) {
         
         // loop through array to set $tweet var and make links active
         for ($i = 0; $i < 8; ++$i) {
-            ${'tweet' . $i} = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $decode[$i][text]);
+            ${'tweet' . $i} = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $decode[$i]['text']);
         }
         
         // full block output (formatted for Libsite7 Drupal theme, change as needed)
+        $formattedTweets = ''; // to prevent drupal throwing undefined var watchdog msg
         for ($i = 0; $i < 8; ++$i) {
             $eachTweet = "<p class='twitter-text'><a href='http://twitter.com/".(${'screenName' . $i})."'>@".(${'screenName' . $i})."</a>: ".(${'tweet' . $i})."</p>";
             $formattedTweets .= $eachTweet;
