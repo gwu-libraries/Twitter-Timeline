@@ -1,7 +1,7 @@
 Twitter-Timeline
 ================
 
-From .info description: Displays Twitter timeline for any account (called as a function). Caches output in /tmp/. Uses Matt Harris' tmhOAuth library.
+Displays Twitter timeline for any account (called as a function). Caches output in /tmp/. Uses Matt Harris' tmhOAuth library.
 
 Example Use:
 
@@ -14,6 +14,7 @@ Where GelmanLibrary is the Twitter handle. Output is formatted for the GW Librar
 .twitter-block
 .twitter-text
 .twitter-feed
+#noTwitterMsg
 
 And change the formatting in the .module file:
  
