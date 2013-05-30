@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * display a Timeline for Twitter accounts
+ */
+
 function getTweetBlock($twitterAccount) {
 
     // check permissions first 

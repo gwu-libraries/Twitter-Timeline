@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Define and manage Twitter accounts, and twitter_timeline schema
+ */
+
+/**
  * Implements hook_install()
  * setting default permissions on install (anonymous users can view timeline by default)
  */
