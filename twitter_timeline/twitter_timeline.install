@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_install()
+ * setting default permissions on install (anonymous users can view timeline by default)
+ */
+
+function twitter_timeline_install() {
+  // rid=2 => authenticated user
+  user_role_change_permissions(1, 
+    array(
+      'view timeline' => TRUE,
+     )
+   );
+}
