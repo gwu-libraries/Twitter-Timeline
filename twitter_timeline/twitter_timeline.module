@@ -2,20 +2,29 @@
 
 function getTweetBlock($twitterAccount) {
 
-    // set cache file name and path
-    $cacheFile = 'twitterCache-'.$twitterAccount;
-    $path = '/tmp/' . $cacheFile . '.cache';
-    
-    // checks to see if cached file is older than xx seconds (default to 120), if so updates cache
-    if ((!file_exists($path) || time() - filemtime($path) > 10) && $cache = fopen($path, 'w+'))
-    {
-        $theBlock = getTweets($twitterAccount); // get block from scratch if old
-        fwrite($cache, $theBlock); // write block to cache
-        fclose($cache);
+    // check permissions first 
+    global $user; 
+    if (user_access('view timeline')) {
+
+        // set cache file name and path
+        $cacheFile = 'twitterCache-'.$twitterAccount;
+        $path = '/tmp/' . $cacheFile . '.cache';
+        
+        // checks to see if cached file is older than xx seconds (default to 120), if so updates cache
+        if ((!file_exists($path) || time() - filemtime($path) > 10) && $cache = fopen($path, 'w+'))
+        {
+            $theBlock = getTweets($twitterAccount); // get block from scratch if old
+            fwrite($cache, $theBlock); // write block to cache
+            fclose($cache);
+        }
+        else
+        {
+            $theBlock = file_get_contents($path); // get block from cache file
+        }
+
     }
-    else
-    {
-        $theBlock = file_get_contents($path); // get block from cache file
+    else {
+        $theBlock = "<div id='noTwitterMsg' style='margin-top:1em; color:#333;'>[ you do no have sufficient permissions to view this content ]</div>";
     }
       
     return $theBlock;
@@ -92,18 +101,7 @@ function getTweets($twitterAccount) {
                     
     }
     
-    //commenting out return while working on permissions check
-    //return $theResult;
-
-    // check permissions first (broken, need to intercept before cache)
-    global $user; 
-    if (user_access('view timeline')) {
-        return $theResult;
-    }
-    else {
-        $noperm = "<div style='margin-top:1em;'>(testing permission settings) bad permissions!</div>";
-        return $noperm;
-    }
+    return $theResult;
 
 }
 
