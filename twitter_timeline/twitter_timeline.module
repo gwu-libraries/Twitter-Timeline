@@ -77,7 +77,7 @@ function getTweets($twitterAccount) {
         
         $profileImage = $decode[0]['user']['profile_image_url'];
 
-        $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img src='".$profileImage."' width='20' height='20' /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
+        $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img alt='Twitter profile image for " . $twitterAccount . "' src='".$profileImage."' width='20' height='20'  /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
         
         //a few things we could pull from the json
         
