@@ -46,18 +46,27 @@ function getTweets($twitterAccount) {
     $tmhOAuth = new tmhOAuth(array(
        'consumer_key' => $consumerKey,
        'consumer_secret' => $consumerSecret,
-       'user_token' => '',
-       'user_secret' => '',
+       'user_token' => $userToken,
+       'user_secret' => $userSecret,
        ));
     
-    $pathVar = '1/statuses/user_timeline/'.$twitterAccount;
+    $pathVar = '1.1/statuses/user_timeline/'.$twitterAccount;
     $code = $tmhOAuth->request('GET', $tmhOAuth->url($pathVar, 'json'));
 
     $theJSON = $tmhOAuth->response['response'];
 
+        // for debugging: set cache file name and path for raw output from api
+        //$cacheFile = 'twitterCacheRaw-'.$twitterAccount;
+        //$path = '/tmp/' . $cacheFile . '.cache';
+        //if ($cache = fopen($path, 'w+'))
+        //    {
+        //    fwrite($cache, $theJSON); // write block to cache
+        //    fclose($cache);
+        //}
+
     $decode = json_decode($theJSON, true); //getting the file content as array
 
-    if (!isset($decode[0]['user']['screen_name'])) // fallback
+    if (!isset($decode[0]['user']['screen_name'])) // fallback 
         {
         $theResult = $noTwitterMsg;
         //$theResult = $noTwitterMsg;
