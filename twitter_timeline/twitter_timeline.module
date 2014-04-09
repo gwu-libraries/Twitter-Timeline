@@ -39,9 +39,9 @@ function getTweets($twitterAccount) {
  
     $noTwitterMsg = "<div id='noTwitterMsg'>[ Twitter is not available and may be experiencing issues, or there may be problems with this account. You can try to access <a href='http://twitter.com/" . $twitterAccount . "'>@" . $twitterAccount . "</a> directly ]</div>";
 
-    require 'tmhOAuth/tmhOAuth.php';
-    require 'tmhOAuth/tmhUtilities.php';
-    include 'tokens.php'; // create this file to store your consumer_key, consumer_secret, user_token and user_secret as the variables below
+    require_once 'tmhOAuth/tmhOAuth.php';
+    require_once 'tmhOAuth/tmhUtilities.php';
+    include_once 'tokens.php'; // create this file to store your consumer_key, consumer_secret, user_token and user_secret as the variables below
 
     $tmhOAuth = new tmhOAuth(array(
        'consumer_key' => $consumerKey,
