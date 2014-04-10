@@ -84,7 +84,8 @@ function getTweets($twitterAccount) {
             ${'screenName' . $i} =  $decode[$i]['user']['screen_name'];
         }
         
-        $profileImage = $decode[0]['user']['profile_image_url'];
+        // $profileImage = $decode[0]['user']['profile_image_url'];
+        $profileImage = preg_replace('#^https?:#', '', $decode[0]['user']['profile_image_url']);
 
         $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img alt='Twitter profile image for " . $twitterAccount . "' src='".$profileImage."' width='20' height='20'  /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
         
