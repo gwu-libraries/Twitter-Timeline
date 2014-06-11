@@ -1,6 +1,6 @@
 name = Twitter Timeline
 description = Displays Twitter timeline for any account (called as a function). Caches output in /tmp/. Uses Matt Harris' tmhOAuth library.
-version = 7.x-1.1.5
+version = 7.x-1.0-rc2
 core = 7.x
 package = GW Libraries
 configure = admin/config/content/twitter-timeline
