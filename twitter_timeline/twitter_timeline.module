@@ -150,7 +150,7 @@ function twitter_timeline_permission() {
  */
  function twitter_timeline_block_info() {
          $blocks['gelman_account_from_twitter_mod'] = array(
-                 'info' => t('@gelman posts from twitter timeline module'),
+                 'info' => t('gelman posts from twitter timeline module'),
          );
  return $blocks;
  }
@@ -161,14 +161,11 @@ function twitter_timeline_permission() {
  
  function twitter_timeline_block_view($delta = '') {
          $block = array();
-         /* vars for latest posts (block content) */
-         //$todayString = variable_get('scrcToday','');
-         //$scrcString = "<p>" . $todayString . "</p>";
- 	/* end vars */
+         // vars for latest posts (block content)
          switch ($delta) {
                  case 'gelman_account_from_twitter_mod':
                  $block['subject'] = t('Latest posts from @gelman');
-                 $block['title'] = '@gelman twitter posts';
+                 $block['title'] = 'gelman twitter posts';
                  $block['content'] = 'content here';
                  break;
          }
