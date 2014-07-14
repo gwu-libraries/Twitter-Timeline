@@ -142,3 +142,35 @@ function twitter_timeline_permission() {
         );
     return $perm;
 }
+
+/* creating blocks for Drupal */
+
+ /**
+ * Implements hook_block_info().
+ */
+ function twitter_timeline_block_info() {
+         $blocks['gelman_account_from_twitter_mod'] = array(
+                 'info' => t('@gelman posts from twitter timeline module'),
+         );
+ return $blocks;
+ }
+ 
+ /**
+ * Implements hook_block_view().
+ */
+ 
+ function twitter_timeline_block_view($delta = '') {
+         $block = array();
+         /* vars for latest posts (block content) */
+         //$todayString = variable_get('scrcToday','');
+         //$scrcString = "<p>" . $todayString . "</p>";
+ 	/* end vars */
+         switch ($delta) {
+                 case 'gelman_account_from_twitter_mod':
+                 $block['subject'] = t('Latest posts from @gelman');
+                 $block['title'] = '@gelman twitter posts';
+                 $block['content'] = 'content here';
+                 break;
+         }
+ return $block;
+ }
