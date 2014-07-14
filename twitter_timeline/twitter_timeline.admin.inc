@@ -38,7 +38,7 @@ function twitter_timeline_form($form, &$form_state) {
   $form['twitter_timeline_handles'] = array(
     '#type' => 'textfield',
     '#title' => t('Twitter handles'),
-    '#default_value' => variable_get('twitter_timeline_handles', 40),
+    '#default_value' => variable_get('twitter_timeline_handles', '@GelmanLibrary'),
     '#size' => 40,
     '#maxlength' => 80,
     '#description' => t('Twitter handles, please separate with a comma and space. Each handle will generate its own block in the blocks admin area.'),
