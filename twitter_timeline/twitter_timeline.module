@@ -165,7 +165,7 @@ function twitter_timeline_permission() {
 	 $twitblock = getTweetBlock('GelmanLibrary');
          switch ($delta) {
                  case 'gelman_account_from_twitter_mod':
-                 $block['subject'] = t('Latest posts from @gelman');
+                 $block['subject'] = t('');
                  $block['title'] = '';
                  $block['content'] = $twitblock;
                  break;

@@ -6,7 +6,7 @@
  */
 
  /**
- * Defines the Timeline admin settings form // doesn't actually do anything yet
+ * Defines the Timeline admin settings form 
  */
 function twitter_timeline_admin_settings_form() {
   $form['twitter_account'] = array(
@@ -26,7 +26,7 @@ function twitter_timeline_menu() {
     'title' => 'Twitter Timeline Configuration',
     'description' => 'Configuration for Twitter Timeline module',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('library_hours_form'),
+    'page arguments' => array('twitter_timeline_form'),
     'access arguments' => array('access administration pages'),
     'type' => MENU_NORMAL_ITEM,
   );
