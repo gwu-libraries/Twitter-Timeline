@@ -166,9 +166,11 @@ function twitter_timeline_permission() {
          switch ($delta) {
                  case 'gelman_account_from_twitter_mod':
                  $block['subject'] = t('Latest posts from @gelman');
-                 $block['title'] = 'gelman twitter posts';
+                 $block['title'] = '';
                  $block['content'] = $twitblock;
                  break;
          }
  return $block;
  }
+
+require_once 'twitter_timeline.admin.inc';
