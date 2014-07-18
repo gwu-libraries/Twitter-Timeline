@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Provide the admin related functions for the Twitter Timeline module
+ * Provide the admin related functions for the Twitter Timeline module.
  */
 
  /**
- * Defines the Timeline admin settings form 
+ * Defines the Timeline admin settings form.
  */
 function twitter_timeline_admin_settings_form() {
   $form['twitter_account'] = array(

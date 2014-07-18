@@ -143,7 +143,7 @@ function twitter_timeline_permission() {
     return $perm;
 }
 
-/* creating blocks for Drupal */
+/* Creating blocks for Drupal. */
 
  /**
  * Implements hook_block_info().
