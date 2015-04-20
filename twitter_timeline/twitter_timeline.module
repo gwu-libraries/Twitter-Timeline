@@ -38,7 +38,7 @@ function getTweetBlock($twitterAccount) {
 
 function getTweets($twitterAccount) {
  
-    $noTwitterMsg = "<div id='noTwitterMsg'>[ Twitter is not available and may be experiencing issues, or there may be problems with this account. You can try to access <a href='http://twitter.com/" . $twitterAccount . "'>@" . $twitterAccount . "</a> directly ]</div>";
+    $noTwitterMsg = "<div id='noTwitterMsg'>[ Twitter is not available and may be experiencing issues, or there may be problems with this account. You can try to access <a href='https://twitter.com/" . $twitterAccount . "'>@" . $twitterAccount . "</a> directly ]</div>";
 
     require_once 'tmhOAuth/tmhOAuth.php';
     require_once 'tmhOAuth/tmhUtilities.php';
@@ -88,7 +88,7 @@ function getTweets($twitterAccount) {
         // $profileImage = $decode[0]['user']['profile_image_url'];
         $profileImage = preg_replace('#^https?:#', '', $decode[0]['user']['profile_image_url']);
 
-        $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img alt='Twitter profile image for " . $twitterAccount . "' src='".$profileImage."' width='20' height='20'  /> <a href='http://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
+        $blockHeader = "<div style='width:100%;'><div class='twitter-block'><img alt='Twitter profile image for " . $twitterAccount . "' src='".$profileImage."' width='20' height='20'  /> <a href='https://twitter.com/".$twitterAccount."' target='_blank'>Latest from @".$twitterAccount."</a></div></div>";
         
         //a few things we could pull from the json
         
@@ -103,13 +103,13 @@ function getTweets($twitterAccount) {
         
         // loop through array to set $tweet var and make links active
         for ($i = 0; $i < 8; ++$i) {
-            ${'tweet' . $i} = preg_replace('"\b(http://\S+)"', '<a href="$1">$1</a>', $decode[$i]['text']);
+            ${'tweet' . $i} = preg_replace('"\b(https://\S+)"', '<a href="$1">$1</a>', $decode[$i]['text']);
         }
         
         // full block output (formatted for Libsite7 Drupal theme, change as needed)
         $formattedTweets = ''; // to prevent drupal throwing undefined var watchdog msg
         for ($i = 0; $i < 8; ++$i) {
-            $eachTweet = "<p class='twitter-text'><a href='http://twitter.com/".(${'screenName' . $i})."'>@".(${'screenName' . $i})."</a>: ".(${'tweet' . $i})."</p>";
+            $eachTweet = "<p class='twitter-text'><a href='https://twitter.com/".(${'screenName' . $i})."'>@".(${'screenName' . $i})."</a>: ".(${'tweet' . $i})."</p>";
             $formattedTweets .= $eachTweet;
         }
 
