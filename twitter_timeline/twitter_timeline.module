@@ -16,8 +16,8 @@ function getTweetBlock($twitterAccount) {
         $cacheFile = 'twitterCache-'.$twitterAccount;
         $path = '/tmp/' . $cacheFile . '.cache';
         
-        // checks to see if cached file is older than xx seconds (default to 120), if so updates cache
-        if ((!file_exists($path) || time() - filemtime($path) > 120) && $cache = fopen($path, 'w+'))
+        // checks to see if cached file is older than xx seconds (noted in seconds as Unix/POSIX time), if so updates cache
+        if ((!file_exists($path) || time() - filemtime($path) > 300) && $cache = fopen($path, 'w+'))
         {
             $theBlock = getTweets($twitterAccount); // get block from scratch if old
             fwrite($cache, $theBlock); // write block to cache
